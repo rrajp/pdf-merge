@@ -68,5 +68,19 @@ def merge(filename):
     # return send_file(os.path.join(folder, 'result_0.pdf'), as_attachment = True)
 
 
+@app.route('/list/', methods = ['GET'])
+def list():
+    folder = os.path.join(current_app.root_path, 'static/download/')
+    return str(os.listdir(folder))
+
+
+@app.route('/del/<path:filename>', methods = ['GET'])
+def delete(filename):
+    folder = os.path.join(current_app.root_path, 'static/download/')
+    os.remove(os.path.join(folder, filename))
+    return f'deleted {filename}'
+
+
+
 if __name__ == '__main__':
     app.run()
