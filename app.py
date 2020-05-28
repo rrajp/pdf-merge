@@ -10,6 +10,7 @@ i = 0
 
 @app.route('/', methods = ['GET', 'POST'])
 def front():
+    app.logger.info("Here 0")
     global i
     i += 1
     if request.method == "POST":
