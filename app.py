@@ -13,9 +13,11 @@ def front():
     global i
     i += 1
     if request.method == "POST":
+
         try:
             get_dict = dict()
             flag = True
+            app.logger.info("Here 1")
             for k, v in request.files.items():
                 number = k.split("_")[1]
                 pages_range = k.split("_")[2]
@@ -23,7 +25,7 @@ def front():
                 file = v
                 if priority == "":
                     flag = False
-
+            app.logger.info("Here 2")
             for k, v in request.files.items():
                 if flag:
                     priority = k.split("_")[3]
@@ -43,6 +45,7 @@ def front():
                             get_dict[int(priority)]['pages'] += list(range(start, end + 1))
                         else:
                             get_dict[int(priority)]['pages'].append(int(page))
+            app.logger.info("Here 3")
 
             pd_w = PdfFileWriter()
             for key in sorted(list(get_dict.keys())):
@@ -53,6 +56,7 @@ def front():
                             pd_w.addPage(read.getPage(allpage))
                     else:
                         pd_w.addPage(read.getPage(pg - 1))
+            app.logger.info("Here 4")
             with open(os.path.join(current_app.root_path, f'static/download/result_{i}.pdf'), 'wb') as out:
                 pd_w.write(out)
             app.logger.info(f"Saved 'result_{i}.pdf'")
