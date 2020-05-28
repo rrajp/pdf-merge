@@ -1,6 +1,7 @@
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from flask import Flask, render_template, request, current_app, send_from_directory
 import os
+import logging
 
 app = Flask(__name__)
 app.static_folder = 'static'
@@ -52,9 +53,9 @@ def front():
                             pd_w.addPage(read.getPage(allpage))
                     else:
                         pd_w.addPage(read.getPage(pg - 1))
-            with open(os.path.join(os.getcwd(), f'static/download/result_{i}.pdf'), 'wb') as out:
+            with open(os.path.join(current_app.root_path, f'static/download/result_{i}.pdf'), 'wb') as out:
                 pd_w.write(out)
-
+            app.logger.info(f"Saved 'result_{i}.pdf'")
             return f'result_{i}.pdf'
         except Exception as e:
             return "Invalid Input"
@@ -83,4 +84,7 @@ def delete(filename):
 
 
 if __name__ == '__main__':
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
     app.run()
