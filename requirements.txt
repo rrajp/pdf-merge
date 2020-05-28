@@ -1,2 +1,2 @@
-flask == "*"
-PyPDF2 == "*"
+Flask==1.1.2
+PyPDF2==1.26.0
