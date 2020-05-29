@@ -176,7 +176,7 @@
                 return myXhr;
             },
             success: function (response) {
-                    console.log("here again"+response);
+                    console.log("here again "+response);
                 download(response);
                 $.ajax({
             url: '/del/'+response,
@@ -219,9 +219,9 @@
 
     function uploadnew() {
         // var file = $(this)[0].files[0];
-        var file = document.getElementById('file').files[0]
+        var file = document.getElementById('file').files[0];
         var upload = new Upload(file);
-        console.log("here")
+        console.log("here");
 
         // maby check size or type here with upload.getSize() and upload.getType()
 

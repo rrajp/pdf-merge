@@ -29,7 +29,7 @@ def front():
                 if priority == "":
                     flag = False
             print("Here 2")
-            sys.stdout.flush()
+
             for k, v in request.files.items():
                 if flag:
                     priority = k.split("_")[3]
@@ -46,7 +46,7 @@ def front():
                         if '-' in page:
                             start = int(page.split("-")[0])
                             end = int(page.split("-")[1])
-                            get_dict[int(priority)]['pages'] += list(range(start, end + 1))
+                            get_dict[int(priority)]['pages'] += sorted(range(start, end + 1))
                         else:
                             get_dict[int(priority)]['pages'].append(int(page))
             print("Here 3")
