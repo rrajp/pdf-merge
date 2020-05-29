@@ -15,10 +15,12 @@
 
 </head>
 <body>
-<div class="jumbotron text-center">
-    <legend>Merge PDF Files</legend>
-</div>
+
 <div class="container text-center" style="min-height: 250px;">
+    <div class="jumbotron text-center">
+    <legend>Merge PDF Files</legend>
+    <h5 style="color: #132dbd; padding-top: 4%">Merge - Cut - Edit - Mix - Rearrange <br />All Kind of PDF Files !</h5>
+</div>
     <div class="row">
 
 
@@ -39,7 +41,7 @@
             </div>
             <div id="progress-wrp">
                 <div class="progress-bar"></div>
-                <div class="status">0%</div>
+                <div class="status"></div>
             </div>
             <div class="row">
                 <h5 style="text-align: left;padding-top: 5%" id="info"  ></h5>
@@ -180,8 +182,8 @@
                     console.log("here again "+response);
                     if (response.includes("result")) {
 
-                        var msg = document.getElementById("msg")
-                        msg.textContent = "Downloading merged file ... "
+                        var msg = document.getElementById("msg");
+                        msg.textContent = "Downloading merged file ... ";
                         download(response);
                         $.ajax({
             url: '/del/'+response,
