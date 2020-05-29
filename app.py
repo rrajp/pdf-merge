@@ -18,39 +18,42 @@ def front():
     if request.method == "POST":
 
         try:
-            get_dict = dict()
-            flag = True
-            print("Here 1")
-            for k, v in request.files.items():
-                number = k.split("_")[1]
-                pages_range = k.split("_")[2]
-                priority = k.split("_")[3]
-                file = v
-                if priority == "":
-                    flag = False
-            print("Here 2")
-
-            for k, v in request.files.items():
-                if flag:
+            try:
+                get_dict = dict()
+                flag = True
+                print("Here 1")
+                for k, v in request.files.items():
+                    number = k.split("_")[1]
+                    pages_range = k.split("_")[2]
                     priority = k.split("_")[3]
-                else:
-                    priority = k.split("_")[1]
-                get_dict[int(priority)] = dict()
-                get_dict[int(priority)]['file'] = v
-                pages = k.split("_")[2].split(",")
-                if len(pages) == 1 and pages[0] == '':
-                    get_dict[int(priority)]['pages'] = ['all']
-                else:
-                    get_dict[int(priority)]['pages'] = []
-                    for page in pages:
-                        if '-' in page:
-                            start = int(page.split("-")[0])
-                            end = int(page.split("-")[1])
-                            get_dict[int(priority)]['pages'] += sorted(range(start, end + 1))
-                        else:
-                            get_dict[int(priority)]['pages'].append(int(page))
-            print("Here 3")
-            sys.stdout.flush()
+                    file = v
+                    if priority == "":
+                        flag = False
+                print("Here 2")
+
+                for k, v in request.files.items():
+                    if flag:
+                        priority = k.split("_")[3]
+                    else:
+                        priority = k.split("_")[1]
+                    get_dict[int(priority)] = dict()
+                    get_dict[int(priority)]['file'] = v
+                    pages = k.split("_")[2].split(",")
+                    if len(pages) == 1 and pages[0] == '':
+                        get_dict[int(priority)]['pages'] = ['all']
+                    else:
+                        get_dict[int(priority)]['pages'] = []
+                        for page in pages:
+                            if '-' in page:
+                                start = int(page.split("-")[0])
+                                end = int(page.split("-")[1])
+                                get_dict[int(priority)]['pages'] += sorted(range(start, end + 1))
+                            else:
+                                get_dict[int(priority)]['pages'].append(int(page))
+                print("Here 3")
+                sys.stdout.flush()
+            except Exception as e:
+                return f"Improper User input for file order or pages"
 
             pd_w = PdfFileWriter()
             for key in sorted(get_dict.keys()):
@@ -60,7 +63,10 @@ def front():
                         for allpage in range(read.getNumPages()):
                             pd_w.addPage(read.getPage(allpage))
                     else:
-                        pd_w.addPage(read.getPage(pg - 1))
+                        try:
+                            pd_w.addPage(read.getPage(pg - 1))
+                        except:
+                            return f"Page count mismatch for file :  {key + 1}"
             print("Here 4")
             sys.stdout.flush()
             with open(os.path.join(current_app.root_path, f'static/download/result_{i}.pdf'), 'wb') as out:
@@ -93,7 +99,6 @@ def delete(filename):
         return f"Surccessfully Deleted {filename}"
     except Exception as e:
         return e
-
 
 
 if __name__ == '__main__':

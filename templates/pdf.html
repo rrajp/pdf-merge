@@ -42,7 +42,8 @@
                 <div class="status">0%</div>
             </div>
             <div class="row">
-                <h5 style="text-align: left;padding-top: 5%" id="msg"  ></h5>
+                <h5 style="text-align: left;padding-top: 5%" id="info"  ></h5>
+                <h4 style="text-align: left;padding-top: 5%;color:#FF0000" id="msg"  ></h4>
             </div>
         </div>
     </div>
@@ -56,9 +57,9 @@
     function updateList() {
         var input = document.getElementById('file');
         var output = document.getElementById('fileList');
-        var msg =document.getElementById('msg')
-        msg.textContent = "Note : Keep Page Range Blank if all pages are to be joined \n\r If File order is not provided, same will be considered as shown above.";
-        msg.innerHTML = msg.innerHTML.replace(/\n\r?/g, '<br />');
+        var info =document.getElementById('info')
+        info.textContent = "Note : Keep Page Range Blank if all pages are to be joined \n\r If File order is not provided, same will be considered as shown above.";
+        info.innerHTML = info.innerHTML.replace(/\n\r?/g, '<br />');
         var children = "";
         //children += '<li>' + input.files.item(i).name + '</li>';
         for (var i = 0; i < input.files.length; ++i) {
@@ -177,8 +178,12 @@
             },
             success: function (response) {
                     console.log("here again "+response);
-                download(response);
-                $.ajax({
+                    if (response.includes("result")) {
+
+                        var msg = document.getElementById("msg")
+                        msg.textContent = "Downloading merged file ... "
+                        download(response);
+                        $.ajax({
             url: '/del/'+response,
             type: "POST",
             contentType: "application/json; charset=UTF-8",
@@ -189,6 +194,14 @@
                 console.log(error);
             }
         })
+                    }
+                    else {
+                    var msg = document.getElementById("msg");
+                    msg.textContent = response;
+
+                    }
+
+
                 // your callback here
                 // document.getElementById('msg').textContent =response
             },
