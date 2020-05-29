@@ -84,7 +84,7 @@
                 console.log(response);
             },
             error: function (error) {
-                $("#flash").text("Error Occured")
+                $("#flash").text("Error Occured");
                 console.log(error);
             }
         })
@@ -110,6 +110,25 @@
 
                     document.body.removeChild(element);
                 }
+
+    function deletion(response) {
+
+                //creating an invisible element
+                var element = document.createElement('a');
+                console.log(response);
+                endpoint = '/del/'+response;
+                // element.setAttribute('href', "{{url_for('static', filename='download/result_0')}}");
+                element.setAttribute('href', endpoint);
+
+                //the above code is equivalent to
+                // <a href="path of file" download="file name">
+                document.body.appendChild(element);
+
+                //onClick property
+                element.click();
+
+                document.body.removeChild(element);
+            }
 
     var Upload = function (file) {
         this.file = file;
@@ -154,8 +173,19 @@
                 return myXhr;
             },
             success: function (response) {
-                    console.log("here again"+response)
-                download(response)
+                    console.log("here again"+response);
+                download(response);
+                $.ajax({
+            url: '/del/'+response,
+            type: "POST",
+            contentType: "application/json; charset=UTF-8",
+            success: function (reply) {
+                console.log(reply);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
                 // your callback here
                 // document.getElementById('msg').textContent =response
             },

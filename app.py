@@ -53,7 +53,7 @@ def front():
             sys.stdout.flush()
 
             pd_w = PdfFileWriter()
-            for key in sorted(list(get_dict.keys())):
+            for key in sorted(get_dict.keys()):
                 read = PdfFileReader(get_dict[key]['file'])
                 for pg in get_dict[key]['pages']:
                     if pg == 'all':
@@ -85,11 +85,14 @@ def list():
     return str(os.listdir(folder))
 
 
-@app.route('/del/<path:filename>', methods = ['GET'])
+@app.route('/del/<path:filename>', methods = ['POST'])
 def delete(filename):
-    folder = os.path.join(current_app.root_path, 'static/download/')
-    os.remove(os.path.join(folder, filename))
-    return f'deleted {filename}'
+    try:
+        folder = os.path.join(current_app.root_path, 'static/download/')
+        os.remove(os.path.join(folder, filename))
+        return f"Surccessfully Deleted {filename}"
+    except Exception as e:
+        return e
 
 
 
