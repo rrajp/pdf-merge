@@ -42,7 +42,7 @@
                 <div class="status">0%</div>
             </div>
             <div class="row">
-                <label id="msg"></label>
+                <h5 style="text-align: left;padding-top: 5%" id="msg"  ></h5>
             </div>
         </div>
     </div>
@@ -56,12 +56,15 @@
     function updateList() {
         var input = document.getElementById('file');
         var output = document.getElementById('fileList');
+        var msg =document.getElementById('msg')
+        msg.textContent = "Note : Keep Page Range Blank if all pages are to be joined \n\r If File order is not provided, same will be considered as shown above.";
+        msg.innerHTML = msg.innerHTML.replace(/\n\r?/g, '<br />');
         var children = "";
         //children += '<li>' + input.files.item(i).name + '</li>';
         for (var i = 0; i < input.files.length; ++i) {
             children +=
                 //'<input type="text" id = "f" class="form-control" placeholder='+input.files.item(i).name+'>
-                '<div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text">' + input.files.item(i).name + '</span></div><input type="text" id = f' + i + ' class="form-control" placeholder="1,2,3-4"><input type="text" id = num' + i + ' class="form-control" placeholder="1">'
+                '<div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text">' + input.files.item(i).name + '</span></div><input type="text" id = f' + i + ' class="form-control" placeholder="Page Range i.e. 1,2,3-4"><input type="text" id = num' + i + ' class="form-control" placeholder="File Order i.e. 1 or 2">'
         }
         //output.innerHTML = '<ul>'+children+'</ul>';
         output.innerHTML = '<div>' + children + '<\div>'
