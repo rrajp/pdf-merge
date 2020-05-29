@@ -11,4 +11,4 @@ This Application can be used for:
 The application is running on HEROKU server at : https://pdfmixer.herokuapp.com/
 
 
-![](https://github.com/ShiftMech/pdf-merge/blob/master/templates/del.png)
+![](https://github.com/ShiftMech/pdf-merge/blob/master/templates/del)
