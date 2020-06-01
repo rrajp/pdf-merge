@@ -185,7 +185,7 @@
                         var msg = document.getElementById("msg");
                         msg.textContent = "Downloading merged file ... ";
                         download(response);
-                        var todel =response.split("_")[0]+"_"+parseInt(response.split("_")[1]-1);
+                        var todel = response.split("_")[0]+"_"+parseInt(response.split("_")[1].split(".")[0]-1);
                         $.ajax({
             url: '/del/'+todel,
             type: "POST",
